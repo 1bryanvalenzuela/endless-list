@@ -10,6 +10,7 @@
     } from "$lib/contexts";
     import Pencil from "~icons/lucide/pencil";
     import Check from "~icons/lucide/check";
+    import ColorButton from "$ui/components/colorButton.svelte";
 
     let description = $state("");
     let titleColor = $state<string | null>(null);
@@ -277,29 +278,11 @@
                     </div>
                     <div class="flex flex-col gap-3 shrink-0">
                         <div class="flex items-center justify-center gap-3">
-                            <div class="relative w-6 h-6">
-                                <input
-                                    id="title-color-panel"
-                                    type="color"
-                                    bind:value={titleColor}
-                                    onchange={handleColorChange}
-                                    class="absolute top-0 left-0 w-6 h-6 border-0 rounded-full cursor-pointer opacity-0 peer z-2"
-                                    title={t(
-                                        "editColor",
-                                        settingsStore.language,
-                                    )}
-                                    aria-label={t(
-                                        "editColor",
-                                        settingsStore.language,
-                                    )}
-                                />
-                                <label
-                                    for="title-color-panel"
-                                    class="absolute top-0 left-0 w-6 h-6 rounded-full border outline-2 outline-accent/50 border-primary cursor-pointer pointer-events-none z-1 peer-hover:outline-accent peer-focus:outline-accent"
-                                    style="background-color: {titleColor ||
-                                        'var(--color-text)'}"
-                                ></label>
-                            </div>
+                            <ColorButton
+                                id="title-color"
+                                bind:value={titleColor}
+                                onchange={handleColorChange}
+                            />
                         </div>
                     </div>
                 </div>

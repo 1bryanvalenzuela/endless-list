@@ -69,6 +69,7 @@
             {/if}
 
             <Checkbox
+                id="dont-show-again"
                 checked={dontShowAgain}
                 onclick={() => {
                     dontShowAgain = !dontShowAgain;

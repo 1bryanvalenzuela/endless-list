@@ -5,20 +5,30 @@
 
     import ModalContainer from "$ui/components/modalContainer.svelte";
     import Button from "$ui/components/button.svelte";
+    import ColorButton from "$ui/components/colorButton.svelte";
+    import Checkbox from "$ui/components/checkbox.svelte";
 
     let language = $state<"es" | "en">(settingsStore.language);
     let theme = $state<"light" | "dark" | "system">(settingsStore.theme);
+    let defaultTitleColor = $state<string | null>(
+        settingsStore.defaultTitleColor,
+    );
+    let dontShowAgain = $state<boolean>(settingsStore.showDeleteWarning);
 
     $effect(() => {
         if (uiStore.showSettingsModal) {
             language = settingsStore.language;
             theme = settingsStore.theme;
+            defaultTitleColor = settingsStore.defaultTitleColor;
+            dontShowAgain = settingsStore.showDeleteWarning;
         }
     });
 
     function handleSave() {
+        settingsStore.setDefaultTitleColor(defaultTitleColor);
         settingsStore.setLanguage(language);
         settingsStore.setTheme(theme);
+        settingsStore.setShowDeleteWarning(dontShowAgain);
         uiStore.closeSettingsModal();
     }
 
@@ -91,6 +101,59 @@
                             >{t("system", settingsStore.language)}</option
                         >
                     </select>
+                </div>
+            </div>
+
+            <div class="flex flex-row gap-4">
+                <div class="flex w-full flex-col gap-2">
+                    <label
+                        for="default-title-color"
+                        class="text-text dark:text-text-dark text-sm font-medium"
+                        >{t("defaultTitleColor", settingsStore.language)}</label
+                    >
+                    <div class="flex items-center justify-start gap-2 pt-2">
+                        <ColorButton
+                            id="default-title-color"
+                            bind:value={defaultTitleColor}
+                        />
+                    </div>
+                </div>
+                <div class="flex w-full items-center">
+                    <Button
+                        onclick={() => {
+                            defaultTitleColor = "#6366f1";
+                        }}
+                        class="text-xs"
+                    >
+                        {t("restoreTitleColor", settingsStore.language)}
+                    </Button>
+                </div>
+            </div>
+
+            <div class="flex flex-row gap-4">
+                <div class="flex w-full flex-col gap-2">
+                    <label
+                        for="default-dont-show-again"
+                        class="text-text dark:text-text-dark text-sm font-medium"
+                        >{t(
+                            "defaultDeleteWarning",
+                            settingsStore.language,
+                        )}</label
+                    >
+                    <Checkbox
+                        id="default-dont-show-again"
+                        checked={dontShowAgain}
+                        onclick={() => {
+                            dontShowAgain = !dontShowAgain;
+                        }}
+                    >
+                        <span
+                            >{t(
+                                "showDeleteWarning",
+                                settingsStore.language,
+                            )}</span
+                        >
+                    </Checkbox>
                 </div>
             </div>
         </div>

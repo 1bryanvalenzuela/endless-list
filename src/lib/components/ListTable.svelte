@@ -4,6 +4,7 @@
     import { t } from "$lib/utils/i18n";
     import ListRow from "./ListRow.svelte";
 
+    const project = $derived(projectStore.project);
     const hasLists = $derived(projectStore.project?.lists.length ?? 0 > 0);
 </script>
 
@@ -12,6 +13,12 @@
         {#each projectStore.project?.lists ?? [] as list (list.id)}
             <ListRow {list} level={0} />
         {/each}
+    {:else if project}
+        <div
+            class="flex items-center justify-center h-full text-text-secondary text-base"
+        >
+            <p class="m-0">{t("emptyProject", settingsStore.language)}</p>
+        </div>
     {:else}
         <div
             class="flex items-center justify-center h-full text-text-secondary text-base"

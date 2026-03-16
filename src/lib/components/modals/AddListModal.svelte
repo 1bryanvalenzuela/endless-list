@@ -3,14 +3,14 @@
     import { projectStore } from "$lib/stores/project.svelte";
     import { settingsStore } from "$lib/stores/settings.svelte";
     import { t } from "$lib/utils/i18n";
-    import { getDefaultTitleColor } from "$lib/utils/theme";
 
     import ModalContainer from "$ui/components/modalContainer.svelte";
     import Checkbox from "$ui/components/checkbox.svelte";
     import Button from "$ui/components/button.svelte";
+    import ColorButton from "$ui/components/colorButton.svelte";
 
     let title = $state("");
-    let titleColor = $state<string | null>(null);
+    let titleColor = $state<string | null>(settingsStore.defaultTitleColor);
     let addToRoot = $state(false);
     let isSelected = $derived(projectStore.selectedList !== null);
 
@@ -18,7 +18,7 @@
         // Reset form when modal opens
         if (uiStore.showAddListModal) {
             title = "";
-            titleColor = getDefaultTitleColor(settingsStore.theme);
+            titleColor = settingsStore.defaultTitleColor;
             addToRoot = !isSelected;
         }
     });
@@ -26,7 +26,7 @@
     function handleConfirm() {
         if (!title.trim()) return;
 
-        const color = titleColor || getDefaultTitleColor(settingsStore.theme);
+        const color = titleColor || settingsStore.defaultTitleColor;
         projectStore.addList(title.trim(), color, addToRoot);
         uiStore.closeAddListModal();
     }
@@ -84,31 +84,14 @@
                         >{t("titleColor", settingsStore.language)}</label
                     >
                     <div class="flex items-center justify-center gap-2 pt-2">
-                        <div class="relative w-6 h-6">
-                            <input
-                                id="title-color-panel"
-                                type="color"
-                                bind:value={titleColor}
-                                class="absolute top-0 left-0 w-6 h-6 border-0 rounded-full cursor-pointer opacity-0 peer z-2"
-                                title={t("editColor", settingsStore.language)}
-                                aria-label={t(
-                                    "editColor",
-                                    settingsStore.language,
-                                )}
-                            />
-                            <label
-                                for="title-color-panel"
-                                class="absolute top-0 left-0 w-6 h-6 rounded-full border outline-2 outline-accent/50 border-primary cursor-pointer pointer-events-none z-1 peer-hover:outline-accent peer-focus:outline-accent"
-                                style="background-color: {titleColor ||
-                                    'var(--color-text)'}"
-                            ></label>
-                        </div>
+                        <ColorButton id="title-color" bind:value={titleColor} />
                     </div>
                 </div>
             </div>
 
             <div class="flex flex-col gap-2">
                 <Checkbox
+                    id="add-to-root"
                     {isSelected}
                     checked={addToRoot}
                     onclick={() => {

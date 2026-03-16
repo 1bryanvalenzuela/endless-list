@@ -3,8 +3,9 @@ import type { Settings } from '$lib/types';
 const SETTINGS_KEY = 'endless-list-settings';
 
 const defaultSettings: Settings = {
-    language: 'es',
+    language: 'en',
     theme: 'system',
+    defaultTitleColor: '#6366f1',
     currentProjectPath: null,
     showDeleteWarning: true,
     windowWidth: null,
@@ -29,6 +30,10 @@ class SettingsStore {
 
     get theme() {
         return this._settings.theme;
+    }
+
+    get defaultTitleColor() {
+        return this._settings.defaultTitleColor;
     }
 
     get currentProjectPath() {
@@ -58,6 +63,11 @@ class SettingsStore {
 
     setTheme(theme: 'light' | 'dark' | 'system') {
         this._settings.theme = theme;
+        this.save();
+    }
+
+    setDefaultTitleColor(color: string | null) {
+        this._settings.defaultTitleColor = color;
         this.save();
     }
 

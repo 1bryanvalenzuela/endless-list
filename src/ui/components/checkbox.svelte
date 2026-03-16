@@ -3,6 +3,7 @@
     import LucideCheck from "~icons/lucide/check";
 
     interface Props {
+        id: string;
         isSelected?: boolean;
         checked: boolean;
         onclick: () => void;
@@ -13,6 +14,7 @@
     }
 
     let {
+        id,
         isSelected = false,
         checked,
         onclick,
@@ -24,10 +26,12 @@
 </script>
 
 <label
+    for={id}
     class="flex flex-row items-center gap-2 text-text text-sm font-medium"
     {...rest}
 >
     <button
+        {id}
         type="button"
         {onclick}
         {disabled}

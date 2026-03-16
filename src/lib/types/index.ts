@@ -19,6 +19,7 @@ export interface Project {
 export interface Settings {
   language: 'es' | 'en';
   theme: 'light' | 'dark' | 'system';
+  defaultTitleColor: string | null;
   currentProjectPath: string | null;
   showDeleteWarning: boolean;
   windowWidth: number | null;

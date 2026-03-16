@@ -46,6 +46,10 @@ const translations: Translations = {
         system: 'Sistema',
         currentProject: 'Proyecto Actual',
         save: 'Guardar',
+        restoreTitleColor: 'Restablecer Color de Título',
+        defaultTitleColor: 'Color de Título Predeterminado',
+        defaultDeleteWarning: 'Advertencia al eliminar',
+        showDeleteWarning: 'Mostrar advertencia',
 
         // Project Modal
         projectManagement: 'Gestión de Proyectos',
@@ -62,8 +66,8 @@ const translations: Translations = {
 
         // General
         noProjectLoaded: 'No hay proyecto cargado',
-        selectList: 'Selecciona una lista para editar',
-        defaultTitleColor: 'predeterminado',
+        emptyProject: 'Añade una lista para comenzar',
+        selectList: 'Selecciona una lista para editar'
     },
     en: {
         // Top Bar
@@ -101,6 +105,10 @@ const translations: Translations = {
         system: 'System',
         currentProject: 'Current Project',
         save: 'Save',
+        restoreTitleColor: 'Restore Title Color',
+        defaultTitleColor: 'Default Title Color',
+        defaultDeleteWarning: 'Delete warning',
+        showDeleteWarning: 'Show warning',
 
         // Project Modal
         projectManagement: 'Project Management',
@@ -117,8 +125,8 @@ const translations: Translations = {
 
         // General
         noProjectLoaded: 'No project loaded',
+        emptyProject: 'Add a list to start',
         selectList: 'Select a list to edit',
-        defaultTitleColor: 'default',
     }
 };
 
