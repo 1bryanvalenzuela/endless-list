@@ -1,6 +1,9 @@
 <script lang="ts">
     import { uiStore } from "$lib/stores/ui.svelte";
-    import { settingsStore } from "$lib/stores/settings.svelte";
+    import {
+        defaultSettings,
+        settingsStore,
+    } from "$lib/stores/settings.svelte";
     import { t } from "$lib/utils/i18n";
 
     import ModalContainer from "$ui/components/modalContainer.svelte";
@@ -121,7 +124,8 @@
                 <div class="flex w-full items-center">
                     <Button
                         onclick={() => {
-                            defaultTitleColor = "#6366f1";
+                            defaultTitleColor =
+                                defaultSettings.defaultTitleColor;
                         }}
                         class="text-xs"
                     >

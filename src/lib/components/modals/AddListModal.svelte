@@ -12,14 +12,25 @@
     let title = $state("");
     let titleColor = $state<string | null>(settingsStore.defaultTitleColor);
     let addToRoot = $state(false);
-    let isSelected = $derived(projectStore.selectedList !== null);
+    let isListSelected = $derived(projectStore.selectedList !== null);
+    let useLastUsedColor = $state(false);
+    let lastUsedColor = $derived(uiStore.lastUsedColor);
 
     $effect(() => {
         // Reset form when modal opens
         if (uiStore.showAddListModal) {
             title = "";
             titleColor = settingsStore.defaultTitleColor;
-            addToRoot = !isSelected;
+            addToRoot = !isListSelected;
+            useLastUsedColor = false;
+        }
+    });
+
+    $effect(() => {
+        if (useLastUsedColor) {
+            titleColor = lastUsedColor;
+        } else {
+            titleColor = settingsStore.defaultTitleColor;
         }
     });
 
@@ -28,6 +39,9 @@
 
         const color = titleColor || settingsStore.defaultTitleColor;
         projectStore.addList(title.trim(), color, addToRoot);
+        if (color !== settingsStore.defaultTitleColor) {
+            uiStore.setLastUsedColor(color);
+        }
         uiStore.closeAddListModal();
     }
 
@@ -91,16 +105,33 @@
 
             <div class="flex flex-col gap-2">
                 <Checkbox
+                    id="last-used-color"
+                    checked={useLastUsedColor}
+                    onclick={() => {
+                        if (lastUsedColor) useLastUsedColor = !useLastUsedColor;
+                    }}
+                    disabled={!lastUsedColor}
+                    class={lastUsedColor ? "cursor-pointer" : "opacity-40"}
+                >
+                    <span class={lastUsedColor ? "" : "opacity-40"}
+                        >{t("lastUsedColor", settingsStore.language)}</span
+                    >
+                </Checkbox>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <Checkbox
                     id="add-to-root"
-                    {isSelected}
                     checked={addToRoot}
                     onclick={() => {
-                        if (isSelected) addToRoot = !addToRoot;
+                        if (isListSelected) addToRoot = !addToRoot;
                     }}
-                    disabled={!isSelected}
-                    class={isSelected ? "cursor-pointer" : "opacity-40"}
+                    disabled={!isListSelected}
+                    class={isListSelected ? "cursor-pointer" : "opacity-40"}
                 >
-                    <span>{t("addToRoot", settingsStore.language)}</span>
+                    <span class={isListSelected ? "" : "opacity-40"}
+                        >{t("addToRoot", settingsStore.language)}</span
+                    >
                 </Checkbox>
             </div>
         </div>

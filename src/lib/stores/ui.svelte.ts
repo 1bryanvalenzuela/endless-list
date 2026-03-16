@@ -16,6 +16,9 @@ class UIStore {
     // Saving indicator
     isSaving = $state(false);
 
+    // Last used color for lists
+    lastUsedColor = $state<string | null>(null);
+
     // Methods for modals
     openFirstLaunchModal() {
         this.showFirstLaunchModal = true;
@@ -120,6 +123,11 @@ class UIStore {
     // Saving indicator
     setSaving(saving: boolean) {
         this.isSaving = saving;
+    }
+
+    // Last used color for lists
+    setLastUsedColor(color: string | null) {
+        this.lastUsedColor = color;
     }
 }
 

@@ -2,7 +2,7 @@ import type { Settings } from '$lib/types';
 
 const SETTINGS_KEY = 'endless-list-settings';
 
-const defaultSettings: Settings = {
+export const defaultSettings: Settings = {
     language: 'en',
     theme: 'system',
     defaultTitleColor: '#6366f1',
