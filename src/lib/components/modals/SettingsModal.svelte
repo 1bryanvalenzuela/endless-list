@@ -10,6 +10,9 @@
     import Button from "$ui/components/button.svelte";
     import ColorButton from "$ui/components/colorButton.svelte";
     import Checkbox from "$ui/components/checkbox.svelte";
+    import ColorChip from "$ui/components/colorChip.svelte";
+
+    const DEFAULT_TITLE_COLOR = "rgb(99, 102, 241)";
 
     let language = $state<"es" | "en">(settingsStore.language);
     let theme = $state<"light" | "dark" | "system">(settingsStore.theme);
@@ -122,15 +125,15 @@
                     </div>
                 </div>
                 <div class="flex w-full items-center">
-                    <Button
+                    <ColorChip
+                        id="restore-title-color"
+                        label={t("restoreTitleColor", settingsStore.language)}
+                        disabled={defaultTitleColor === DEFAULT_TITLE_COLOR}
+                        color={DEFAULT_TITLE_COLOR}
                         onclick={() => {
-                            defaultTitleColor =
-                                defaultSettings.defaultTitleColor;
+                            defaultTitleColor = DEFAULT_TITLE_COLOR;
                         }}
-                        class="text-xs"
-                    >
-                        {t("restoreTitleColor", settingsStore.language)}
-                    </Button>
+                    />
                 </div>
             </div>
 

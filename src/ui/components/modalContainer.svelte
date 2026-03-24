@@ -6,9 +6,11 @@
         onkeydown?: (e: KeyboardEvent) => void;
         ariaLabelledBy: string;
         children: Snippet;
+        className?: string;
     }
 
-    let { onclick, onkeydown, ariaLabelledBy, children }: Props = $props();
+    let { onclick, onkeydown, ariaLabelledBy, children, className }: Props =
+        $props();
 </script>
 
 <div
@@ -20,7 +22,7 @@
     aria-label="Close modal"
 >
     <div
-        class="bg-primary border border-border rounded-lg p-8 min-w-[450px] max-w-[500px]"
+        class="bg-primary border border-border rounded-lg p-8 min-w-[450px] max-w-[500px] {className}"
         onclick={(e) => e.stopPropagation()}
         onkeydown={(e) => e.stopPropagation()}
         role="dialog"

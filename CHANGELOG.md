@@ -1,11 +1,10 @@
 # Changelog
 
-This is the start of Endless List ^^
+Small improvements to settings.
 
-## [1.0.0] - 2026-03-01
+## [1.0.1] - 2026-03-24
 
 ### Added
-- Initial release of EndlessList.
-- Projects uses JSON for storage of lists.
-- Dark and Light mode support.
-- Language support English and Spanish.
+- Default title color setting and restore to default button.
+- Show delete warning setting.
+- Predefined colors when adding a list.

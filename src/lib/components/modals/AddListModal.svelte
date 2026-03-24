@@ -8,31 +8,48 @@
     import Checkbox from "$ui/components/checkbox.svelte";
     import Button from "$ui/components/button.svelte";
     import ColorButton from "$ui/components/colorButton.svelte";
+    import ColorChip from "$ui/components/colorChip.svelte";
+
+    type ColorSource = "default" | "lastUsed" | "selectedList" | "custom";
 
     let title = $state("");
     let titleColor = $state<string | null>(settingsStore.defaultTitleColor);
+    let colorSource = $state<ColorSource>("default");
     let addToRoot = $state(false);
     let isListSelected = $derived(projectStore.selectedList !== null);
-    let useLastUsedColor = $state(false);
     let lastUsedColor = $derived(uiStore.lastUsedColor);
+    let selectedListColor = $derived(
+        projectStore.selectedList?.titleColor ?? null,
+    );
 
     $effect(() => {
         // Reset form when modal opens
         if (uiStore.showAddListModal) {
             title = "";
             titleColor = settingsStore.defaultTitleColor;
+            colorSource = "default";
             addToRoot = !isListSelected;
-            useLastUsedColor = false;
         }
     });
 
     $effect(() => {
-        if (useLastUsedColor) {
-            titleColor = lastUsedColor;
-        } else {
+        if (colorSource === "default") {
             titleColor = settingsStore.defaultTitleColor;
+        } else if (colorSource === "lastUsed" && lastUsedColor) {
+            titleColor = lastUsedColor;
+        } else if (colorSource === "selectedList" && selectedListColor) {
+            titleColor = selectedListColor;
         }
     });
+
+    function selectColorSource(source: ColorSource) {
+        if (source === colorSource) return;
+        colorSource = source;
+    }
+
+    function handleColorInput() {
+        colorSource = "custom";
+    }
 
     function handleConfirm() {
         if (!title.trim()) return;
@@ -67,12 +84,49 @@
     <ModalContainer
         onkeydown={handleOverlayKeydown}
         ariaLabelledBy="add-list-title"
+        className="flex flex-col gap-4"
     >
-        <h2 id="add-list-title" class="pb-4 text-text text-xl font-semibold">
+        <h2 id="add-list-title" class="text-text text-xl font-semibold">
             {t("addNewList", settingsStore.language)}
         </h2>
 
-        <div class="flex flex-col gap-4 pb-4">
+        <div class="flex flex-col gap-2">
+            <span class="text-text text-sm font-medium"
+                >{t("colorSource", settingsStore.language)}</span
+            >
+            <div class="flex flex-wrap justify-center gap-4">
+                <ColorChip
+                    id="color-source-default"
+                    label={t("defaultColor", settingsStore.language)}
+                    color={settingsStore.defaultTitleColor}
+                    selected={colorSource === "default"}
+                    onclick={() => selectColorSource("default")}
+                />
+                <ColorChip
+                    id="color-source-last-used"
+                    label={t("lastUsedColor", settingsStore.language)}
+                    color={lastUsedColor}
+                    selected={colorSource === "lastUsed"}
+                    disabled={!lastUsedColor}
+                    onclick={() => {
+                        if (lastUsedColor) selectColorSource("lastUsed");
+                    }}
+                />
+                <ColorChip
+                    id="color-source-selected-list"
+                    label={t("selectedListColor", settingsStore.language)}
+                    color={selectedListColor}
+                    selected={colorSource === "selectedList"}
+                    disabled={!selectedListColor}
+                    onclick={() => {
+                        if (selectedListColor)
+                            selectColorSource("selectedList");
+                    }}
+                />
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-4">
             <div class="flex flex-row gap-4">
                 <div class="flex w-full flex-col gap-2">
                     <label
@@ -98,25 +152,13 @@
                         >{t("titleColor", settingsStore.language)}</label
                     >
                     <div class="flex items-center justify-center gap-2 pt-2">
-                        <ColorButton id="title-color" bind:value={titleColor} />
+                        <ColorButton
+                            id="title-color"
+                            bind:value={titleColor}
+                            oninput={handleColorInput}
+                        />
                     </div>
                 </div>
-            </div>
-
-            <div class="flex flex-col gap-2">
-                <Checkbox
-                    id="last-used-color"
-                    checked={useLastUsedColor}
-                    onclick={() => {
-                        if (lastUsedColor) useLastUsedColor = !useLastUsedColor;
-                    }}
-                    disabled={!lastUsedColor}
-                    class={lastUsedColor ? "cursor-pointer" : "opacity-40"}
-                >
-                    <span class={lastUsedColor ? "" : "opacity-40"}
-                        >{t("lastUsedColor", settingsStore.language)}</span
-                    >
-                </Checkbox>
             </div>
 
             <div class="flex flex-col gap-2">

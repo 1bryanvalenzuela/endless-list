@@ -30,7 +30,10 @@ const translations: Translations = {
         addToRoot: 'Agregar a la raíz',
         confirm: 'Confirmar',
         cancel: 'Cancelar',
-        lastUsedColor: 'Color usado anteriormente',
+        lastUsedColor: 'Último usado',
+        colorSource: 'Colores predefinidos',
+        defaultColor: 'Predeterminado',
+        selectedListColor: 'Lista seleccionada',
 
         // Delete Confirmation Modal
         deleteConfirmation: 'Confirmar Eliminación',
@@ -90,7 +93,10 @@ const translations: Translations = {
         addToRoot: 'Add to root',
         confirm: 'Confirm',
         cancel: 'Cancel',
-        lastUsedColor: 'Last used color',
+        lastUsedColor: 'Last used',
+        colorSource: 'Predefined Colors',
+        defaultColor: 'Default',
+        selectedListColor: 'Selected list',
 
         // Delete Confirmation Modal
         deleteConfirmation: 'Confirm Deletion',
