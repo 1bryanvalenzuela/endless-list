@@ -10,12 +10,17 @@
     } from "$lib/contexts";
     import Pencil from "~icons/lucide/pencil";
     import Check from "~icons/lucide/check";
+    import Undo2 from "~icons/lucide/undo-2";
+    import Redo2 from "~icons/lucide/redo-2";
     import ColorButton from "$ui/components/colorButton.svelte";
 
     let description = $state("");
     let titleColor = $state<string | null>(null);
     let saveTimeout: number | null = null;
     let isSaving = $state(false);
+
+    let canRedo = $derived(uiStore.canRedo());
+    let canUndo = $derived(uiStore.canUndo());
 
     // Title editing state
     let isEditingTitle = $state(false);
@@ -87,21 +92,29 @@
         projectStore.updateTitleColor(titleColor);
     }
 
-    function handleKeydown(e: KeyboardEvent) {
-        if (e.ctrlKey && e.key === "z") {
-            e.preventDefault();
+    function handleActions(action: "undo" | "redo") {
+        if (action === "undo") {
             const previousValue = uiStore.undo();
             if (previousValue !== null) {
                 description = previousValue;
                 projectStore.updateDescription(description);
             }
-        } else if (e.ctrlKey && e.key === "y") {
-            e.preventDefault();
+        } else if (action === "redo") {
             const nextValue = uiStore.redo();
             if (nextValue !== null) {
                 description = nextValue;
                 projectStore.updateDescription(description);
             }
+        }
+    }
+
+    function handleKeydown(e: KeyboardEvent) {
+        if (e.ctrlKey && e.key === "z") {
+            e.preventDefault();
+            handleActions("undo");
+        } else if (e.ctrlKey && e.key === "y") {
+            e.preventDefault();
+            handleActions("redo");
         }
     }
 
@@ -299,9 +312,34 @@
                 </div>
 
                 <div
-                    class="flex flex-row items-center text-center text-text-secondary dark:text-text-secondary-dark text-xs"
+                    class="flex flex-row items-center text-center text-text-secondary dark:text-text-secondary-dark text-sm"
                 >
-                    <span class="flex-1">Ctrl+Z: Undo | Ctrl+Y: Redo</span>
+                    <div class="flex gap-2 justify-center flex-1">
+                        <div class="flex items-center gap-2">
+                            <span>Ctrl+Z:</span>
+                            <button
+                                title="Undo"
+                                class="text-accent cursor-pointer disabled:cursor-not-allowed disabled:text-text-secondary hover:bg-secondary p-2 rounded-full"
+                                type="button"
+                                onclick={() => handleActions("undo")}
+                                disabled={!canUndo}
+                            >
+                                <Undo2 />
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span>Ctrl+Y:</span>
+                            <button
+                                title="Redo"
+                                class="text-accent cursor-pointer disabled:cursor-not-allowed disabled:text-text-secondary hover:bg-secondary p-2 rounded-full"
+                                type="button"
+                                onclick={() => handleActions("redo")}
+                                disabled={!canRedo}
+                            >
+                                <Redo2 />
+                            </button>
+                        </div>
+                    </div>
                     {#if isSaving}
                         <div
                             class="flex justify-end items-center gap-2 text-success dark:text-success-dark text-xs"
