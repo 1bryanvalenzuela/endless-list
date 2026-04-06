@@ -67,6 +67,8 @@ const translations: Translations = {
         description: 'Descripción',
         saving: 'Guardando...',
         saved: 'Guardado',
+        undo: 'Deshacer',
+        redo: 'Rehacer',
 
         // General
         noProjectLoaded: 'No hay proyecto cargado',
@@ -130,6 +132,8 @@ const translations: Translations = {
         description: 'Description',
         saving: 'Saving...',
         saved: 'Saved',
+        undo: 'Undo',
+        redo: 'Redo',
 
         // General
         noProjectLoaded: 'No project loaded',

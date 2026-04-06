@@ -318,7 +318,7 @@
                         <div class="flex items-center gap-2">
                             <span>Ctrl+Z:</span>
                             <button
-                                title="Undo"
+                                title={t("undo", settingsStore.language)}
                                 class="text-accent cursor-pointer disabled:cursor-not-allowed disabled:text-text-secondary hover:bg-secondary p-2 rounded-full"
                                 type="button"
                                 onclick={() => handleActions("undo")}
@@ -330,7 +330,7 @@
                         <div class="flex items-center gap-2">
                             <span>Ctrl+Y:</span>
                             <button
-                                title="Redo"
+                                title={t("redo", settingsStore.language)}
                                 class="text-accent cursor-pointer disabled:cursor-not-allowed disabled:text-text-secondary hover:bg-secondary p-2 rounded-full"
                                 type="button"
                                 onclick={() => handleActions("redo")}
