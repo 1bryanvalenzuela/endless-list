@@ -64,6 +64,12 @@ fn save_project(path: String, project: Project) -> Result<(), String> {
     Ok(())
 }
 
+#[tauri::command]
+fn read_file_binary(path: String) -> Result<Vec<u8>, String> {
+    let clean_path = path.trim_start_matches("file://");
+    fs::read(clean_path).map_err(|e| format!("Failed to read file '{}': {}", clean_path, e))
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -72,7 +78,8 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             create_project,
             load_project,
-            save_project
+            save_project,
+            read_file_binary
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

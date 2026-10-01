@@ -1,3 +1,10 @@
+import { settingsStore } from './settings.svelte';
+
+export interface DescriptionHistoryItem {
+    title: string;
+    description: string;
+}
+
 class UIStore {
     // Modal states
     showFirstLaunchModal = $state(false);
@@ -6,11 +13,14 @@ class UIStore {
     showSettingsModal = $state(false);
     showProjectModal = $state(false);
 
+    // List table collapse state
+    isListCollapsed = $state(settingsStore.isListCollapsed);
+
     // Expanded lists tracking
     expandedLists = $state<Set<string>>(new Set());
 
-    // Undo/Redo history for description
-    descriptionHistory = $state<string[]>([]);
+    // Undo/Redo history for title and description
+    descriptionHistory = $state<DescriptionHistoryItem[]>([]);
     descriptionHistoryIndex = $state(-1);
 
     // Saving indicator
@@ -18,6 +28,17 @@ class UIStore {
 
     // Last used color for lists
     lastUsedColor = $state<string | null>(null);
+
+    // Methods for list collapse
+    toggleListCollapse() {
+        this.isListCollapsed = !this.isListCollapsed;
+        settingsStore.setIsListCollapsed(this.isListCollapsed);
+    }
+
+    setListCollapsed(collapsed: boolean) {
+        this.isListCollapsed = collapsed;
+        settingsStore.setIsListCollapsed(collapsed);
+    }
 
     // Methods for modals
     openFirstLaunchModal() {
@@ -76,7 +97,7 @@ class UIStore {
     }
 
     // Methods for undo/redo
-    addToHistory(value: string) {
+    addToHistory(value: DescriptionHistoryItem) {
         // Remove any history after current index
         this.descriptionHistory = this.descriptionHistory.slice(0, this.descriptionHistoryIndex + 1);
 
@@ -91,7 +112,7 @@ class UIStore {
         }
     }
 
-    undo(): string | null {
+    undo(): DescriptionHistoryItem | null {
         if (this.descriptionHistoryIndex > 0) {
             this.descriptionHistoryIndex--;
             return this.descriptionHistory[this.descriptionHistoryIndex];
@@ -99,7 +120,7 @@ class UIStore {
         return null;
     }
 
-    redo(): string | null {
+    redo(): DescriptionHistoryItem | null {
         if (this.descriptionHistoryIndex < this.descriptionHistory.length - 1) {
             this.descriptionHistoryIndex++;
             return this.descriptionHistory[this.descriptionHistoryIndex];

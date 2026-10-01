@@ -25,6 +25,9 @@ export interface Settings {
   windowWidth: number | null;
   windowHeight: number | null;
   isMaximized: boolean;
+  descriptionRatio?: number;
+  isListCollapsed?: boolean;
+  isDescriptionCollapsed?: boolean;
 }
 
 export interface HistoryEntry {

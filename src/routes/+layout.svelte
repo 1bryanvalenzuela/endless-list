@@ -82,8 +82,9 @@
                     html.classList.remove("dark");
                 }
 
-                // Apply data-theme attribute
+                // Apply data-theme and color-scheme
                 html.setAttribute("data-theme", actualTheme);
+                html.style.colorScheme = actualTheme;
             };
 
             // Initial theme update

@@ -9,6 +9,7 @@
   import { settingsStore } from "$lib/stores/settings.svelte";
   import { uiStore } from "$lib/stores/ui.svelte";
 
+  import { t } from "$lib/utils/i18n";
   import TopBar from "$lib/components/TopBar.svelte";
   import ListTable from "$lib/components/ListTable.svelte";
   import DescriptionPanel from "$lib/components/DescriptionPanel.svelte";
@@ -39,9 +40,30 @@
 <div class="flex flex-col h-screen w-screen overflow-hidden bg-primary">
   <!-- Main Content -->
   <TopBar />
-  <div class="flex flex-1 overflow-hidden">
-    <ListTable />
+  <div class="flex flex-1 overflow-hidden relative">
+    {#if !uiStore.isListCollapsed}
+      <ListTable />
+    {/if}
     <DescriptionPanel />
+
+    {#if uiStore.isListCollapsed}
+      <button
+        class="fixed left-0 top-1/2 -translate-y-1/2 w-6 h-16 bg-primary border border-border border-l-0 rounded-r-lg cursor-pointer flex items-center justify-center text-text z-100 hover:bg-tertiary transition-all hover:w-9 shadow-md"
+        onclick={() => uiStore.toggleListCollapse()}
+        title={t("expandList", settingsStore.language)}
+        aria-label={t("expandList", settingsStore.language)}
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path
+            d="M6 4L10 8L6 12"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    {/if}
   </div>
 
   <!-- Modals -->

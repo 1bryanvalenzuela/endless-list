@@ -21,6 +21,7 @@
 
 /* Colors - Dark mode */
 .dark {
+  color-scheme: dark;
   --color-primary: #1a1a1a;
   --color-secondary: #272727;
   --color-tertiary: #222222;
@@ -40,6 +41,7 @@
 }
 
 :root {
+  color-scheme: light;
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.5;

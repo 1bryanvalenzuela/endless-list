@@ -140,7 +140,10 @@ class ProjectStore {
             const list = this.selectedList;
             if (list) {
                 uiStore.resetHistory();
-                uiStore.addToHistory(list.description);
+                uiStore.addToHistory({
+                    title: list.title,
+                    description: list.description,
+                });
             }
         }
     }

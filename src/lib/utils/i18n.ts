@@ -62,13 +62,18 @@ const translations: Translations = {
         // Description Panel
         title: 'Título',
         editTitle: 'Editar Título',
+        editMode: 'Modo edición',
+        readMode: 'Modo lectura (Markdown)',
         color: 'Color',
         editColor: 'Cambiar Color',
         description: 'Descripción',
+        writeSomething: 'Escribe algo',
         saving: 'Guardando...',
         saved: 'Guardado',
         undo: 'Deshacer',
         redo: 'Rehacer',
+        expandList: 'Expandir lista',
+        expandPanel: 'Expandir panel',
 
         // General
         noProjectLoaded: 'No hay proyecto cargado',
@@ -127,13 +132,18 @@ const translations: Translations = {
         // Description Panel
         title: 'Title',
         editTitle: 'Edit Title',
+        editMode: 'Edit Mode',
+        readMode: 'Read Mode (Markdown)',
         color: 'Color',
         editColor: 'Change Color',
         description: 'Description',
+        writeSomething: 'Write something',
         saving: 'Saving...',
         saved: 'Saved',
         undo: 'Undo',
         redo: 'Redo',
+        expandList: 'Expand list',
+        expandPanel: 'Expand panel',
 
         // General
         noProjectLoaded: 'No project loaded',

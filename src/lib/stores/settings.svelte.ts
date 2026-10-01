@@ -11,6 +11,9 @@ export const defaultSettings: Settings = {
     windowWidth: null,
     windowHeight: null,
     isMaximized: false,
+    descriptionRatio: 0.5,
+    isListCollapsed: false,
+    isDescriptionCollapsed: false,
 };
 
 class SettingsStore {
@@ -54,6 +57,33 @@ class SettingsStore {
 
     get isMaximized() {
         return this._settings.isMaximized;
+    }
+
+    get descriptionRatio(): number {
+        return this._settings.descriptionRatio ?? 0.5;
+    }
+
+    get isListCollapsed(): boolean {
+        return this._settings.isListCollapsed ?? false;
+    }
+
+    get isDescriptionCollapsed(): boolean {
+        return this._settings.isDescriptionCollapsed ?? false;
+    }
+
+    setDescriptionRatio(ratio: number) {
+        this._settings.descriptionRatio = ratio;
+        this.save();
+    }
+
+    setIsListCollapsed(collapsed: boolean) {
+        this._settings.isListCollapsed = collapsed;
+        this.save();
+    }
+
+    setIsDescriptionCollapsed(collapsed: boolean) {
+        this._settings.isDescriptionCollapsed = collapsed;
+        this.save();
     }
 
     setLanguage(language: 'es' | 'en') {
